@@ -1,0 +1,54 @@
+import react from "react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+
+export default function Averagebarchart({ data }) {
+  let average = { likes: 0, comments: 0, shares: 0 };
+  data.forEach((d) => {
+    average.likes += d.likes;
+    average.comments += d.comments;
+    average.shares += d.shares;
+  });
+  average.likes = average.likes / data.length;
+  average.comments = average.comments / data.length;
+  average.shares = average.shares / data.length;
+
+  const chartData = [
+    { name: "Likes", value: average.likes },
+    { name: "Comments", value: average.comments },
+    { name: "Shares", value: average.shares },
+  ];
+
+  return (
+    <div className="h-80">
+      <ResponsiveContainer width={'100%'} height={'100%'}>
+      <BarChart
+        data={chartData}
+        margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+      >
+        {/* <CartesianGrid strokeDasharray="3 3" /> */}
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip
+          contentStyle={{
+            backgroundColor: "rgba(31, 41, 55, 0.8)",
+            borderColor: "#4B5563",
+          }}
+          itemStyle={{ color: "#E5E7EB" }}
+          cursor={false}
+        />
+        <Legend />
+        <Bar dataKey="value" fill="#8884d8" />
+      </BarChart>
+    </ResponsiveContainer>
+    </div>
+  );
+}
