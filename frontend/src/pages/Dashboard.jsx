@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import { ThumbsUp, MessageCircle ,Share2} from "lucide-react";
 import Statecard from "../components/Statecard";
 import Monthlydata from "../components/Dashboard_Components/Monthlydata";
+import Averagebarchart from "../components/Dashboard_Components/Averagebarchart";
 
 const Dashboard = () => {
   const socialMediaData = [
@@ -196,8 +197,10 @@ const Dashboard = () => {
           <Statecard name="Total Comments" icon={MessageCircle} value={socialMediaData.map((d)=>d.comments).reduce((acc, curr) => acc + curr, 0)} color="blue" />
           <Statecard name="Total Shares" icon={Share2} value={socialMediaData.map((d)=>d.shares).reduce((acc, curr) => acc + curr, 0)} color="green" />
         </div>
-        <div><Monthlydata data={socialMediaData.filter((d)=>d.userId===1)} /></div>
+        <div className="flex justify-center"><Monthlydata data={socialMediaData.filter((d)=>d.userId===1)} /></div>
+        <div className="flex justify-center"><Averagebarchart data={socialMediaData.filter((d)=>d.userId===1)} /></div>
       </div>
+      
    
   );
 };
