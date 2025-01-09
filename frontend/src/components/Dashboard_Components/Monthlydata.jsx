@@ -7,8 +7,10 @@ import {
     YAxis,
     Tooltip,
     ResponsiveContainer,
+    Legend,
   } from "recharts";
   import { ThumbsUp, MessageCircle,Share2 } from 'lucide-react';
+  import { motion } from "framer-motion";
 
   
   export default function Monthlydata({data}) {
@@ -52,7 +54,7 @@ import {
       };
 
       const renderLineChart = (
-        <LineChart width='50%' height='300' data={monthlyDataWithYear}>
+        <LineChart  data={monthlyDataWithYear}>
           <Line type="monotone" dataKey="likes" stroke="red" />
           <Line type="monotone" dataKey="comments" stroke="blue" />
           <Line type="monotone" dataKey="shares" stroke="green" />
@@ -67,16 +69,31 @@ import {
           }}
           itemStyle={{ color: "#E5E7EB" }}
           cursor={false} />
+          <Legend/>
         </LineChart>
       );
 
       
 
       return(
-       < ResponsiveContainer width='100%' height="100%">
+        <motion.div
+      className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.3 }}
+    >
+      <h2 className='text-lg font-medium mb-4 text-gray-100'>
+          Engagement Frequency (Per Month)
+        </h2>
+       <div className="h-80">
+       < ResponsiveContainer width='100%' height={'100%'}>
        {
           renderLineChart
        }
        </ResponsiveContainer>
+       </div>
+       </motion.div>
+        
       )
+     
 }

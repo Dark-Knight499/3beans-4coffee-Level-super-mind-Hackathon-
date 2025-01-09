@@ -9,6 +9,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { motion } from "framer-motion";
 
 export default function Averagebarchart({ data }) {
   let average = { likes: 0, comments: 0, shares: 0 };
@@ -28,6 +29,15 @@ export default function Averagebarchart({ data }) {
   ];
 
   return (
+    <motion.div
+    className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700"
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.3 }}
+  >
+    <h2 className='text-lg font-medium mb-4 text-gray-100'>
+          Average Engagement
+        </h2>
     <div className="h-80">
       <ResponsiveContainer width={'100%'} height={'100%'}>
       <BarChart
@@ -50,5 +60,6 @@ export default function Averagebarchart({ data }) {
       </BarChart>
     </ResponsiveContainer>
     </div>
+    </motion.div>
   );
 }
