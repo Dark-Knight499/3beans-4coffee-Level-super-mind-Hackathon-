@@ -1,9 +1,10 @@
 import React from "react";
 import Header from "../components/Header";
-import { ThumbsUp, MessageCircle ,Share2} from "lucide-react";
+import { ThumbsUp, MessageCircle ,Share2, TrendingUp} from "lucide-react";
 import Statecard from "../components/Statecard";
 import Monthlydata from "../components/Dashboard_Components/Monthlydata";
 import Averagebarchart from "../components/Dashboard_Components/Averagebarchart";
+import { motion } from "framer-motion";
 
 const Dashboard = () => {
   const socialMediaData = [
@@ -192,13 +193,30 @@ const Dashboard = () => {
   return (
     <div className="flex-1 z-10 overflow-auto relative">
       <Header title="Dashboard" />
-      <div className="flex justify-center flex-wrap gap-16 p-4 rounded-lg">
+     
+        <main className='max-w-7xl mx-auto py-6 px-4 lg:px-8'>
+        {/* CHARTS */}
+        <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-8 gap-5 "
+          initial={{ opacity: 0 ,y:20 }}
+          animate={{ opacity: 1 ,y:0 }}
+          transition={{ duration: 1 }}
+        >
+
           <Statecard name="Total Likes" icon={ThumbsUp} value={socialMediaData.map((d)=>d.likes).reduce((acc, curr) => acc + curr, 0)} color="red" />
           <Statecard name="Total Comments" icon={MessageCircle} value={socialMediaData.map((d)=>d.comments).reduce((acc, curr) => acc + curr, 0)} color="blue" />
           <Statecard name="Total Shares" icon={Share2} value={socialMediaData.map((d)=>d.shares).reduce((acc, curr) => acc + curr, 0)} color="green" />
+          <Statecard name="Engagement " icon={TrendingUp} value={socialMediaData.map((d)=>d.shares+d.likes+d.comments).reduce((acc, curr) => acc + curr, 0)} color="pink" />
+        </motion.div>
+        
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
+        <Monthlydata data={socialMediaData.filter((d)=>d.userId === 1)} />
+          <Averagebarchart data={socialMediaData.filter((d)=>d.userId === 1)} />
+          
+          
         </div>
-        <div className="flex justify-center"><Monthlydata data={socialMediaData.filter((d)=>d.userId===1)} /></div>
-        <div className="flex justify-center"><Averagebarchart data={socialMediaData.filter((d)=>d.userId===1)} /></div>
+      </main>
+        
+        
       </div>
       
    
