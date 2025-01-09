@@ -4,6 +4,8 @@ import { ThumbsUp, MessageCircle ,Share2, TrendingUp} from "lucide-react";
 import Statecard from "../components/Statecard";
 import Monthlydata from "../components/Dashboard_Components/Monthlydata";
 import Averagebarchart from "../components/Dashboard_Components/Averagebarchart";
+import PostFrequency from "../components/Dashboard_Components/PostFrequency";
+import EngagementPerPostType from "../components/Dashboard_Components/EngagementPerPostType";
 import { motion } from "framer-motion";
 
 const Dashboard = () => {
@@ -210,9 +212,9 @@ const Dashboard = () => {
         
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
         <Monthlydata data={socialMediaData.filter((d)=>d.userId === 1)} />
-          <Averagebarchart data={socialMediaData.filter((d)=>d.userId === 1)} />
-          
-          
+        <PostFrequency data={socialMediaData.filter((d)=>d.userId === 1)} />
+        <Averagebarchart data={socialMediaData.filter((d)=>d.userId === 1)} />
+        <EngagementPerPostType data={socialMediaData.filter((d)=>d.userId === 1)} />
         </div>
       </main>
         
