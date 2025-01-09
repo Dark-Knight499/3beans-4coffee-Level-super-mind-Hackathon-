@@ -8,6 +8,9 @@ import PostFrequency from "../components/Dashboard_Components/PostFrequency";
 import EngagementPerPostType from "../components/Dashboard_Components/EngagementPerPostType";
 import { motion } from "framer-motion";
 
+import EngagementPerPostType from '../components/Dashboard_Components/EngagementPerPostType'
+import PostFrequency from '../components/Dashboard_Components/PostFrequency'
+
 const Dashboard = () => {
   const socialMediaData = [
     {
