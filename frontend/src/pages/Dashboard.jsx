@@ -8,8 +8,8 @@ import PostFrequency from "../components/Dashboard_Components/PostFrequency";
 import EngagementPerPostType from "../components/Dashboard_Components/EngagementPerPostType";
 import { motion } from "framer-motion";
 
-import EngagementPerPostType from '../components/Dashboard_Components/EngagementPerPostType'
-import PostFrequency from '../components/Dashboard_Components/PostFrequency'
+
+
 
 const Dashboard = () => {
   const socialMediaData = [
@@ -207,17 +207,17 @@ const Dashboard = () => {
           transition={{ duration: 1 }}
         >
 
-          <Statecard name="Total Likes" icon={ThumbsUp} value={socialMediaData.map((d)=>d.likes).reduce((acc, curr) => acc + curr, 0)} color="red" />
-          <Statecard name="Total Comments" icon={MessageCircle} value={socialMediaData.map((d)=>d.comments).reduce((acc, curr) => acc + curr, 0)} color="blue" />
-          <Statecard name="Total Shares" icon={Share2} value={socialMediaData.map((d)=>d.shares).reduce((acc, curr) => acc + curr, 0)} color="green" />
-          <Statecard name="Engagement " icon={TrendingUp} value={socialMediaData.map((d)=>d.shares+d.likes+d.comments).reduce((acc, curr) => acc + curr, 0)} color="pink" />
+          <Statecard name="Total Likes" icon={ThumbsUp} value={socialMediaData.filter((d)=>d.userId === 1).map((d)=>d.likes).reduce((acc, curr) => acc + curr, 0)} color="red" />
+          <Statecard name="Total Comments" icon={MessageCircle} value={socialMediaData.filter((d)=>d.userId === 1).map((d)=>d.comments).reduce((acc, curr) => acc + curr, 0)} color="blue" />
+          <Statecard name="Total Shares" icon={Share2} value={socialMediaData.filter((d)=>d.userId === 1).map((d)=>d.shares).reduce((acc, curr) => acc + curr, 0)} color="green" />
+          <Statecard name="Engagement " icon={TrendingUp} value={socialMediaData.filter((d)=>d.userId === 1).map((d)=>d.shares+d.likes+d.comments).reduce((acc, curr) => acc + curr, 0)} color="pink" />
         </motion.div>
         
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
         <Monthlydata data={socialMediaData.filter((d)=>d.userId === 1)} />
-        <PostFrequency data={socialMediaData.filter((d)=>d.userId === 1)} />
+        <PostFrequency PostFrequencyPerMonth={socialMediaData.filter((d)=>d.userId === 1)} />
         <Averagebarchart data={socialMediaData.filter((d)=>d.userId === 1)} />
-        <EngagementPerPostType data={socialMediaData.filter((d)=>d.userId === 1)} />
+        <EngagementPerPostType DistributionData={socialMediaData.filter((d)=>d.userId === 1)} />
         </div>
       </main>
         
