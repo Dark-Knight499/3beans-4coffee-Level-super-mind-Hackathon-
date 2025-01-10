@@ -16,7 +16,7 @@ const PostFrequency = ({PostFrequencyPerMonth}) => {
   const groupByMonthAndYear = (data) => {
     const monthYearMap = {};
     data.forEach((d) => {
-      const date = new Date(d.dateOfPost);
+      const date = new Date(d.datetime);
       const monthYear = `${date.toLocaleString("default", { month: "short" })} ${date.getFullYear()}`; // e.g., "January 2023"
       
       if (!monthYearMap[monthYear]) {

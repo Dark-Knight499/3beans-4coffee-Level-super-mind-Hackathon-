@@ -1,231 +1,141 @@
-import React from "react";
-import Header from "../components/Header";
-import { ThumbsUp, MessageCircle ,Share2, TrendingUp} from "lucide-react";
-import Statecard from "../components/Statecard";
-import Monthlydata from "../components/Dashboard_Components/Monthlydata";
-import Averagebarchart from "../components/Dashboard_Components/Averagebarchart";
-import PostFrequency from "../components/Dashboard_Components/PostFrequency";
-import EngagementPerPostType from "../components/Dashboard_Components/EngagementPerPostType";
-import { motion } from "framer-motion";
-
-
-
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import Header from '../components/Header'
+import { ThumbsUp, MessageCircle, Share2, TrendingUp } from 'lucide-react'
+import Statecard from '../components/Statecard'
+import Monthlydata from '../components/Dashboard_Components/Monthlydata'
+import Averagebarchart from '../components/Dashboard_Components/Averagebarchart'
+import PostFrequency from '../components/Dashboard_Components/PostFrequency'
+import EngagementPerPostType from '../components/Dashboard_Components/EngagementPerPostType'
+import { motion } from 'framer-motion'
 
 const Dashboard = () => {
-  const socialMediaData = [
-    {
-      userId: 1,
-      postId: 101,
-      postType: "Image",
-      likes: 120,
-      comments: 45,
-      shares: 30,
-      dateOfPost: "2025-01-01",
-    },
-    {
-      userId: 2,
-      postId: 102,
-      postType: "Reel",
-      likes: 450,
-      comments: 87,
-      shares: 55,
-      dateOfPost: "2024-12-30",
-    },
-    {
-      userId: 3,
-      postId: 103,
-      postType: "Carousel",
-      likes: 340,
-      comments: 60,
-      shares: 40,
-      dateOfPost: "2025-01-03",
-    },
-    {
-      userId: 1,
-      postId: 104,
-      postType: "Reel",
-      likes: 590,
-      comments: 120,
-      shares: 80,
-      dateOfPost: "2024-11-28",
-    },
-    {
-      userId: 4,
-      postId: 105,
-      postType: "Image",
-      likes: 220,
-      comments: 30,
-      shares: 20,
-      dateOfPost: "2025-01-05",
-    },
-    {
-      userId: 5,
-      postId: 106,
-      postType: "Carousel",
-      likes: 400,
-      comments: 90,
-      shares: 50,
-      dateOfPost: "2024-12-31",
-    },
-    {
-      userId: 3,
-      postId: 107,
-      postType: "Reel",
-      likes: 700,
-      comments: 150,
-      shares: 100,
-      dateOfPost: "2025-01-07",
-    },
-    {
-      userId: 2,
-      postId: 108,
-      postType: "Image",
-      likes: 320,
-      comments: 65,
-      shares: 35,
-      dateOfPost: "2024-12-25",
-    },
-    {
-      userId: 6,
-      postId: 109,
-      postType: "Reel",
-      likes: 800,
-      comments: 190,
-      shares: 120,
-      dateOfPost: "2024-12-20",
-    },
-    {
-      userId: 7,
-      postId: 110,
-      postType: "Image",
-      likes: 150,
-      comments: 50,
-      shares: 25,
-      dateOfPost: "2025-01-08",
-    },
-    {
-      userId: 8,
-      postId: 111,
-      postType: "Carousel",
-      likes: 550,
-      comments: 130,
-      shares: 70,
-      dateOfPost: "2024-12-18",
-    },
-    {
-      userId: 9,
-      postId: 112,
-      postType: "Image",
-      likes: 190,
-      comments: 40,
-      shares: 15,
-      dateOfPost: "2024-12-22",
-    },
-    {
-      userId: 1,
-      postId: 113,
-      postType: "Reel",
-      likes: 980,
-      comments: 250,
-      shares: 140,
-      dateOfPost: "2025-9-09",
-    },
-    {
-      userId: 4,
-      postId: 114,
-      postType: "Carousel",
-      likes: 600,
-      comments: 140,
-      shares: 90,
-      dateOfPost: "2024-12-26",
-    },
-    {
-      userId: 7,
-      postId: 115,
-      postType: "Image",
-      likes: 230,
-      comments: 70,
-      shares: 45,
-      dateOfPost: "2024-12-15",
-    },
-    {
-      userId: 2,
-      postId: 116,
-      postType: "Reel",
-      likes: 720,
-      comments: 180,
-      shares: 110,
-      dateOfPost: "2024-12-28",
-    },
-    {
-      userId: 8,
-      postId: 117,
-      postType: "Carousel",
-      likes: 350,
-      comments: 80,
-      shares: 50,
-      dateOfPost: "2024-12-10",
-    },
-    {
-      userId: 3,
-      postId: 118,
-      postType: "Image",
-      likes: 280,
-      comments: 90,
-      shares: 60,
-      dateOfPost: "2024-12-05",
-    },
-    {
-      userId: 1,
-      postId: 119,
-      postType: "Reel",
-      likes: 1050,
-      comments: 300,
-      shares: 200,
-      dateOfPost: "2024-08-02",
-    },
-    {
-      userId: 6,
-      postId: 120,
-      postType: "Carousel",
-      likes: 450,
-      comments: 100,
-      shares: 75,
-      dateOfPost: "2024-12-23",
-    },
-  ];
+  const [username, setUsername] = useState('')
+  const [isSearched, setIsSearched] = useState(false)
+  const [socialMediaData, setSocialMediaData] = useState([])
+  const [loading, setLoading] = useState(false)
+
+  const fetchSocialMediaData = async () => {
+    if (!username.trim()) {
+      alert('Please enter a valid username to search.')
+      return
+    }
+    setLoading(true)
+    try {
+      const response = await axios.get(
+        `https://3cef-103-199-173-133.ngrok-free.app/api/@${username}/get_data`,
+        {
+          headers: {
+            Accept: 'application/json',
+            'ngrok-skip-browser-warning': 'true'
+          }
+        }
+      )
+      console.log(response.data)
+      setSocialMediaData(response.data)
+      setIsSearched(true)
+    } catch (error) {
+      console.error('Error fetching social media data:', error)
+      alert('Failed to fetch data. Please try again later.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Handle Search Click
+  const handleSearch = () => {
+    fetchSocialMediaData()
+  }
 
   return (
-    <div className="flex-1 z-10 overflow-auto relative">
-      <Header title="Dashboard" />
-     
-        <main className='max-w-7xl mx-auto py-6 px-4 lg:px-8'>
-        {/* CHARTS */}
-        <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-8 gap-5 "
-          initial={{ opacity: 0 ,y:20 }}
-          animate={{ opacity: 1 ,y:0 }}
-          transition={{ duration: 1 }}
+    <div className='flex-1 z-10 overflow-auto relative'>
+      <Header title='Social Analytics' />
+
+      <main className='max-w-7xl mx-auto py-6 px-4 lg:px-8'>
+        {/* User Input */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className='flex justify-center items-center gap-2 mb-8'
         >
-
-          <Statecard name="Total Likes" icon={ThumbsUp} value={socialMediaData.filter((d)=>d.userId === 1).map((d)=>d.likes).reduce((acc, curr) => acc + curr, 0)} color="red" />
-          <Statecard name="Total Comments" icon={MessageCircle} value={socialMediaData.filter((d)=>d.userId === 1).map((d)=>d.comments).reduce((acc, curr) => acc + curr, 0)} color="blue" />
-          <Statecard name="Total Shares" icon={Share2} value={socialMediaData.filter((d)=>d.userId === 1).map((d)=>d.shares).reduce((acc, curr) => acc + curr, 0)} color="green" />
-          <Statecard name="Engagement " icon={TrendingUp} value={socialMediaData.filter((d)=>d.userId === 1).map((d)=>d.shares+d.likes+d.comments).reduce((acc, curr) => acc + curr, 0)} color="pink" />
+          <input
+            type='text'
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+            placeholder='Username'
+            className='w-96 p-3 bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
+          />
+          <div className='flex items-center'>
+            <button
+              onClick={handleSearch}
+              className='px-4 py-3 text-white bg-[#6366f1] rounded-xl hover:bg-[#494bed] focus:outline-none'
+              disabled={loading}
+            >
+              {loading ? 'Searching...' : 'Search'}
+            </button>
+          </div>
         </motion.div>
-        
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
-        <Monthlydata data={socialMediaData.filter((d)=>d.userId === 1)} />
-        <PostFrequency PostFrequencyPerMonth={socialMediaData.filter((d)=>d.userId === 1)} />
-        <Averagebarchart data={socialMediaData.filter((d)=>d.userId === 1)} />
-        <EngagementPerPostType DistributionData={socialMediaData.filter((d)=>d.userId === 1)} />
-        </div>
-      </main>
-        
-        
-      </div>
-      
-   
-  );
-};
 
-export default Dashboard;
+        {/* Loading State */}
+        {loading && (
+          <p className='text-center text-gray-500'>Fetching data...</p>
+        )}
+
+        {/* Charts */}
+        {isSearched && !loading && (
+          <>
+            <motion.div
+              className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-8 gap-5'
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
+            >
+              <Statecard
+                name='Total Views'
+                icon={TrendingUp}
+                value={socialMediaData
+                  .map(d => d.views)
+                  .reduce((acc, curr) => acc + curr, 0)}
+                color='pink'
+              />
+              <Statecard
+                name='Total Likes'
+                icon={ThumbsUp}
+                value={socialMediaData
+                  .map(d => d.likes)
+                  .reduce((acc, curr) => acc + curr, 0)}
+                color='red'
+              />
+              <Statecard
+                name='Total Comments'
+                icon={MessageCircle}
+                value={socialMediaData
+                  .map(d => d.comments)
+                  .reduce((acc, curr) => acc + curr, 0)}
+                color='blue'
+              />
+              <Statecard
+                name='Total Shares'
+                icon={Share2}
+                value={socialMediaData
+                  .map(d => d.shares)
+                  .reduce((acc, curr) => acc + curr, 0)}
+                color='green'
+              />
+            </motion.div>
+
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
+              <Monthlydata data={socialMediaData} />
+              <EngagementPerPostType DistributionData={socialMediaData} />
+              <PostFrequency PostFrequencyPerMonth={socialMediaData} />
+              <Averagebarchart data={socialMediaData} />
+            </div>
+          </>
+        )}
+      </main>
+    </div>
+  )
+}
+
+export default Dashboard

@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { PieChart, Pie, Tooltip, Legend, Cell, ResponsiveContainer } from 'recharts';
 
-const COLORS = ['#8B5CF6', '#EC4899', '#10B981'];
+const COLORS = ['#8B5CF6', '#EC4899', '#10B981', '#F59E0B', '#3B82F6'];
 
 const EngagementPerPostType = ({ DistributionData }) => {
   if (!DistributionData || DistributionData.length === 0) {
@@ -11,11 +11,11 @@ const EngagementPerPostType = ({ DistributionData }) => {
 
   // Transform data to calculate engagement values per post type
   const processedData = Object.values(
-    DistributionData.reduce((acc, { postType, likes, comments, shares }) => {
-      if (!acc[postType]) {
-        acc[postType] = { name: postType, value: 0 }; // `name` is required for labels and legend
+    DistributionData.reduce((acc, { post_type, likes, comments, shares }) => {
+      if (!acc[post_type]) {
+        acc[post_type] = { name: post_type, value: 0 }; // `name` is required for labels and legend
       }
-      acc[postType].value += likes + comments + shares;
+      acc[post_type].value += likes + comments + shares;
       return acc;
     }, {})
   );
@@ -28,7 +28,7 @@ const EngagementPerPostType = ({ DistributionData }) => {
       transition={{ delay: 0.3 }}
     >
       <h2 className="text-lg font-medium mb-4 text-gray-100">
-        Engagement Distribution (Per Post Type)
+        Engagement Distribution by post type
       </h2>
       <div className="h-80">
         <ResponsiveContainer width="100%" height="100%">

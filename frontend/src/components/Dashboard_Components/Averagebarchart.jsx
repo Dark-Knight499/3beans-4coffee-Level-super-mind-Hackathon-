@@ -23,9 +23,9 @@ export default function Averagebarchart({ data }) {
   average.shares = average.shares / data.length;
 
   const chartData = [
-    { name: "Likes", value: average.likes },
-    { name: "Comments", value: average.comments },
-    { name: "Shares", value: average.shares },
+    { name: "Likes", value: Math.floor(average.likes) },
+    { name: "Comments", value: Math.floor(average.comments) },
+    { name: "Shares", value: Math.floor(average.shares) },
   ];
 
   return (
@@ -56,7 +56,7 @@ export default function Averagebarchart({ data }) {
           cursor={false}
         />
         <Legend />
-        <Bar dataKey="value" fill="#8884d8" />
+        <Bar dataKey="value" fill="#6366f1" />
       </BarChart>
     </ResponsiveContainer>
     </div>
