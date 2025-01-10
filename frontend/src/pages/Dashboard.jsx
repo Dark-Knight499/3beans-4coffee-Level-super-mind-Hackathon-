@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import Header from '../components/Header'
 import { ThumbsUp, MessageCircle, Share2, TrendingUp } from 'lucide-react'
 import Statecard from '../components/Statecard'
@@ -24,21 +23,19 @@ const Dashboard = () => {
     try {
       const response = await fetch(
         `https://threebeans-4coffee-level-super-mind.onrender.com/api/@${username.trim()}/get_data`,
-        { 
+        {
           method: 'GET',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           }
-         
         }
       )
-      const data = await response.json()
-      
-      console.log(data , username)
+      const data = await response.json();
+
       setSocialMediaData(data)
       setIsSearched(true)
     } catch (error) {
-      console.error('Error fetching social media data:', error ,username)
+      console.error('Error fetching social media data:', error, username)
       alert('Failed to fetch data. Please try again later.')
     } finally {
       setLoading(false)
@@ -67,8 +64,17 @@ const Dashboard = () => {
             value={username}
             onChange={e => setUsername(e.target.value)}
             placeholder='Username'
+            list='usernames'
             className='w-96 p-3 bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500'
           />
+          <datalist id='usernames'>
+            <option value='GaneshMishra-lab' />
+            <option value='texh_guru' />
+            <option value='Dark-Knight499' />
+            <option value='foodie_lover' />
+            <option value='CodeWithDubeyji' />
+            <option value='music_fanatic' />
+          </datalist>
           <div className='flex items-center'>
             <button
               onClick={handleSearch}
