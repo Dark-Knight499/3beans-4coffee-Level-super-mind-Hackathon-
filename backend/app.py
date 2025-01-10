@@ -2,10 +2,17 @@ from flask import Flask, request, jsonify,send_file
 import pandas as pd
 from flask_cors import CORS
 import base64
+from langflow_connect import run_message
+import requests
 app = Flask(__name__)
 CORS(app)
 usernames = ["@Dark-Knight499", "@GaneshMishra-lab", "@tech_guru", "@foodie_lover", "@CodeWithDubeyji", "@music_fanatic"]
 data = pd.read_csv("final social media data.csv")
+
+@app.route("/")
+def home():
+    return "Hello, 3beans4Coffee!"
+
 @app.route("/api/<username>/get_data", methods=["GET"])
 def user_get_data(username):
     try:
@@ -33,11 +40,17 @@ def get_data():
     except Exception as e:
         return jsonify({"error": str(e)})
 
-@app.route("/api/chatbot", methods=["GET"])
+@app.route("/chatbot", methods=["POST"])
 def chatbot():
+    data = request.json
+    message = data.get("message")
+    if not message:
+        return jsonify({"error": "Message is required"}), 400
     try:
-        return jsonify({"message": "Chatbot is working"})
+        response = run_message(message)
+        return jsonify(response)
     except Exception as e:
-        return jsonify({"error": str(e)})
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == "__main__":
     app.run(debug=True)
