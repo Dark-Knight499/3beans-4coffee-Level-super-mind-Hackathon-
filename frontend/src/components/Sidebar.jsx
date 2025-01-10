@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { House, Menu } from 'lucide-react'
+import { House, Menu, Users } from 'lucide-react'
 import { BotMessageSquare } from 'lucide-react'
 import { TrendingUp, Gem } from 'lucide-react'
 
@@ -25,10 +25,10 @@ const SIDEBAR_ITEMS = [
     link: '/dashboard'
   },
   {
-    name: 'Pricing',
-    icon: Gem,
+    name: 'Team',
+    icon: Users,
     color: '#F59E0B',
-    link: '/pricing'
+    link: '/team'
   }
 ]
 

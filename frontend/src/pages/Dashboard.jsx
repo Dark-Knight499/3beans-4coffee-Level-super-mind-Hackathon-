@@ -22,20 +22,23 @@ const Dashboard = () => {
     }
     setLoading(true)
     try {
-      const response = await axios.get(
-        `https://3cef-103-199-173-133.ngrok-free.app/api/@${username}/get_data`,
-        {
+      const response = await fetch(
+        `https://threebeans-4coffee-level-super-mind.onrender.com/api/@${username.trim()}/get_data`,
+        { 
+          method: 'GET',
           headers: {
-            Accept: 'application/json',
-            'ngrok-skip-browser-warning': 'true'
+            'Content-Type': 'application/json',
           }
+         
         }
       )
-      console.log(response.data)
-      setSocialMediaData(response.data)
+      const data = await response.json()
+      
+      console.log(data , username)
+      setSocialMediaData(data)
       setIsSearched(true)
     } catch (error) {
-      console.error('Error fetching social media data:', error)
+      console.error('Error fetching social media data:', error ,username)
       alert('Failed to fetch data. Please try again later.')
     } finally {
       setLoading(false)

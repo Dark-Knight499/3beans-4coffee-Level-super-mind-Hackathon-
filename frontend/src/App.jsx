@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import Chatbot from './pages/Chatbot.jsx'
 import Dashboard from './pages/Dashboard.jsx'
-import Pricing from './pages/Pricing.jsx'
+import Team from './pages/Team.jsx'
 
 import Sidebar from './components/Sidebar.jsx'
 
@@ -24,7 +24,7 @@ const App = () => {
             <Route path='/' element={<Home />} />
             <Route path='/chatbot' element={<Chatbot />} />
             <Route path='/dashboard' element={<Dashboard />} />
-            <Route path='/pricing' element={<Pricing />} />
+            <Route path='/team' element={<Team />} />
         </Routes>
     </div>
   )
